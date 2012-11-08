@@ -1,22 +1,20 @@
 module HashtiveRecord
   module Storage
     
-    class Table
-      attr_accessor :records
-      attr_reader :id
+    class Database
+      attr_accessor :tables
       
-      def initialize(id)
-        @id = id
-        @records = []
+      def initialize
+        @tables = []
       end
       
       def find(id)
-        records.find { |rec| rec.id == id }
+        tables.find { |rec| rec.id == id }
       end
       
       def method_missing(method, *args, &block)
-        if records.respond_to?(method)
-          records.send(method, *args, &block)
+        if tables.respond_to?(method)
+          tables.send(method, *args, &block)
         elsif find(method)
           find(method)
         else
@@ -25,7 +23,7 @@ module HashtiveRecord
       end
 
       def respond_to?(method, include_private = false)
-        super || records.respond_to?(method, include_private)
+        super || tables.respond_to?(method, include_private)
       end
 
       
