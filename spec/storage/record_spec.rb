@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe "HashtiveRecord::Storage::Record" do
-  let!(:klass) { HashtiveRecord::Storage::Record }
-  let(:hash)   { {:wibble => { stats: {name: "Billy", age: 12}}} }
-  let(:record) { klass.new(hash) }
+  let(:klass)  { HashtiveRecord::Storage::Record }
+  let(:hash)   { {:wibble => { stats: {name: "Billy", age: 12}}}  }
+  let(:record) { build(:record, hash: hash )  }
   
   describe ".new" do
     it "wraps arguments in a struct" do
@@ -12,6 +12,7 @@ describe "HashtiveRecord::Storage::Record" do
     
     it "raises an exception if there is more than one key at the top of the hash" do
       bad_hash = { wibble: "poop", cack: "poop"}
+
       expect { klass.new(bad_hash) }.to raise_error(HashtiveRecord::RecordError, "multiple ids found on record")
     end
   end

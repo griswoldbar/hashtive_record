@@ -1,15 +1,9 @@
 require 'spec_helper'
 
 describe "HashtiveRecord::Storage::Database" do
-  let!(:klass) { HashtiveRecord::Storage::Database }
-  let(:database) { klass.new }
-  let(:table1) { mock 'table' }
-  let(:table2) { mock 'table' }
-  
-  before(:each) do
-    table1.stub(:id).and_return(:blah)
-    table2.stub(:id).and_return(:plop)
-  end
+  let(:database) { build(:database) }
+  let(:table1)   { build(:table, id: :blah) }
+  let(:table2)   { build(:table, id: :plop) }
   
   describe ".new" do
     it "initializes an array" do
@@ -19,7 +13,7 @@ describe "HashtiveRecord::Storage::Database" do
   
   describe "#find" do
     it "finds the table with that id" do
-      database.stub(:tables).and_return([table1,table2])
+      database.tables = [table1,table2]
       database.find(:plop).should == table2
       database.find(:blah).should == table1
     end
@@ -31,7 +25,7 @@ describe "HashtiveRecord::Storage::Database" do
   end
   
   it "further delegates methods to its own find method" do
-    database.stub(:tables).and_return([table1,table2])
+    database.tables = [table1,table2]
     database.plop.should == table2
     database.blah.should == table1
   end
