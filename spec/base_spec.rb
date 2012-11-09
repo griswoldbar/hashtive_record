@@ -64,7 +64,6 @@ describe "HashtiveRecord::Base" do
     
     describe ".belongs_to" do    
       it "establishes a belongs to relationship" do
-        pet.should_not respond_to :person
         Pet.belongs_to(:person)
         pet.should respond_to :person
         pet.should respond_to :person=
