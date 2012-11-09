@@ -1,18 +1,18 @@
 require 'spec_helper'
+require 'support/test_classes'
 
 describe "HashtiveRecord::Base" do
   let(:hash)     { {:wibble => { name: "Billy", age: 12}}  }
   let(:record)   { build(:record, hash: hash )  }
+  let(:pet_record) { build(:record, hash: { jekyll: {name: "Jekyll"}})}
   let(:people)   { build(:table, id: :people, records: [record]) }
   let(:animals)  { build(:table, id: :animals) }
   let(:database) { build(:database, tables: [people, animals]) }
   let(:person)   { Person.new(record) }
+  let(:pet)      { Pet.new(pet_record) }
   
   before(:each) do    
     HashtiveRecord::Base.database = database
-    class Person < HashtiveRecord::Base
-    
-    end
   end
   
   describe "class methods" do
@@ -62,12 +62,12 @@ describe "HashtiveRecord::Base" do
       end
     end
     
-    describe ".belongs_to" do
-      before(:each) do
-        class Family < HashtiveRecord::Base; end
-      end
+    describe ".belongs_to" do    
       it "establishes a belongs to relationship" do
-        
+        pet.should_not respond_to :person
+        Pet.belongs_to(:person)
+        pet.should respond_to :person
+        pet.should respond_to :person=
       end
     end
     
@@ -83,6 +83,7 @@ describe "HashtiveRecord::Base" do
       end
     end
   end
+  
   
 
 

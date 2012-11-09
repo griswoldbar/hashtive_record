@@ -26,7 +26,7 @@ module HashtiveRecord
       attr_accessor :table_name
       
       def inherited(base)
-        base.table_name ||= base.name.tableize.to_sym
+        base.table_name ||= base.name.tableize.to_sym if !!base.name
       end
       
       def find(id)

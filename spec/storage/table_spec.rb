@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'support/shared_examples_for_container'
 
 describe "HashtiveRecord::Storage::Table" do
   let(:table)   { build(:table, id: :things) }
