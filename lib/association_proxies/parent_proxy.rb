@@ -1,11 +1,20 @@
 module HashtiveRecord
   module AssociationProxies
     class ParentProxy
-      attr_reader :association, :association_klass
+      attr_accessor :association, :association_klass
       
-      def initialize(parent_klass_name, parent_id)
+      def self.build(parent_klass_name, parent_id)
+        proxy = new(parent_klass_name)
+        proxy.association = proxy.association_klass.find(parent_id)
+        proxy
+      end
+      
+      def initialize(parent_klass_name)
         @association_klass = parent_klass_name.to_s.classify.constantize
-        @association = @association_klass.find(parent_id)
+      end
+      
+      def valid_klass?(object)
+        object.is_a? association_klass
       end
       
       def method_missing(method, *args, &block)

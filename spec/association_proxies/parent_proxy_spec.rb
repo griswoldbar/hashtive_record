@@ -1,17 +1,18 @@
 require 'spec_helper'
 
 describe HashtiveRecord::AssociationProxies::ParentProxy do
-  let(:person) { mock 'person' }
+  let(:person)  { build(:person) }
+  let(:pet)     { build(:pet) }
+  let(:proxy)   { described_class.build(:person, :jim)  }
   
-  describe ".new" do
+  describe ".build" do
     it "returns an object of the required type" do
       Person.should_receive(:find).with(:jim).and_return(person)
-      described_class.new(:person, :jim)
+      proxy
     end
     
     it "stores its accepted class" do
       Person.stub(:find)
-      proxy = described_class.new(:person, :jim)
       proxy.association_klass.should == Person
     end
   end
@@ -20,13 +21,17 @@ describe HashtiveRecord::AssociationProxies::ParentProxy do
     it "delegates to its association" do
       Person.stub(:find).with(:jim).and_return(person)
       person.should_receive(:wibble)
-      proxy = described_class.new(:person, :jim)
       proxy.wibble
     end
   end
 
-  describe "#check_class" do
-    
+  describe "#valid_klass?" do
+    it "returns true when the class is correct and false when it isn't" do
+
+      Person.stub(:find)
+      proxy.valid_klass?(person).should be_true
+      proxy.valid_klass?(pet).should be_false
+    end
   end
   
 end

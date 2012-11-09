@@ -19,7 +19,7 @@ module HashtiveRecord
         belonger_klass.send(:define_method, parent_klass_name) do
           parent_id = send(_parent_id_name)
           @_parents ||= {}
-          @_parents[parent_class_name] ||= HashtiveRecord::AssociationProxies::ParentProxy.new(_parent_klass_name, parent_id)
+          @_parents[_parent_klass_name] ||= HashtiveRecord::AssociationProxies::ParentProxy.build(_parent_klass_name, parent_id)
         end
       end
       
@@ -28,10 +28,11 @@ module HashtiveRecord
         _parent_klass_name = parent_klass_name
         
         belonger_klass.send(:define_method, "#{parent_klass_name}=") do |object|
-          parent_id = send(_parent_id_name)
           @_parents ||= {}
-          @_parents[parent_class_name] ||= HashtiveRecord::AssociationProxies::ParentProxy.new(_parent_klass_name, parent_id)
-          @_parents[parent_class_name].check_class(object)
+          @_parents[_parent_klass_name] ||= HashtiveRecord::AssociationProxies::ParentProxy.new(_parent_klass_name)       
+          raise HashtiveRecord::Associations::TypeMismatch, "#{object}" unless @_parents[_parent_klass_name].valid_klass?(object)
+          @_parents[_parent_klass_name].association = object
+          send("#{_parent_id_name}=", object.id)
         end
       end
       
