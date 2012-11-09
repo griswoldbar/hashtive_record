@@ -1,4 +1,4 @@
-require 'active_support/core_ext'
+require 'active_support'
 
 Dir.glob("./initializers/*.rb") {|file| require file}
 Dir.glob("./lib/extensions/*.rb") {|file| require file}
