@@ -34,8 +34,25 @@ describe HashtiveRecord::Associations::BelongsTo do
         pet.person_id.should == person.id
       end
     end
-
     
+    context "when a different association name is given" do
+      let!(:belongs_to) { described_class.new(Pet, :person, as: :owner) }
+      let(:pet) { build(:owned_pet) }
+      
+      it "defines an appropriate getter" do
+        HashtiveRecord::AssociationProxies::ParentProxy.should_receive(:build).with(:person, pet.owner_id)
+        pet.owner
+      end
+      
+      it "defines an appropriate setter" do
+        HashtiveRecord::AssociationProxies::ParentProxy.stub(:new).and_return(proxy)
+        proxy.should_receive(:valid_klass?).and_return(true)
+        proxy.should_receive(:association=).with(person)
+        pet.owner = person
+        pet.owner_id.should == person.id
+      end
+      
+    end
   end
   
 end
