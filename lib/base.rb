@@ -4,6 +4,9 @@ module HashtiveRecord
     extend Macros
     attr_accessor :record
 
+    def id
+      record.id
+    end
     
     def method_missing(method, *args, &block)
       if self.class.accessors.include?(method)
@@ -22,7 +25,7 @@ module HashtiveRecord
       
       attr_accessor :table_name, :reflection
       
-      def load(record)
+      def instantiate(record)
         new.tap {|item| item.record=record}
       end
       
@@ -42,7 +45,7 @@ module HashtiveRecord
       def find(id)
         record = table.find(id)
         if !!record
-          load(record)
+          instantiate(record)
         else
           nil
         end
@@ -65,7 +68,7 @@ module HashtiveRecord
       end
       
       def all
-        table.map {|record| load(record) }
+        table.map {|record| instantiate(record) }
       end
       
       def method_missing(method, *args, &block)

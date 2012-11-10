@@ -8,15 +8,15 @@ module HashtiveRecord
         @belonger_klass = belonger_klass
         @parent_klass_name = parent_klass_name
         @association_name = options[:as] || parent_klass_name
-        add_to_reflection
+        add_to_reflection(options)
         define_reader
         define_writer
       end
       
       private
       
-      def add_to_reflection
-        
+      def add_to_reflection(options)
+        belonger_klass.reflection.add_belongs_to(parent_klass_name, options)
       end
       
       def define_reader

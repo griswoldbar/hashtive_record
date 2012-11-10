@@ -8,8 +8,8 @@ describe "HashtiveRecord::Base" do
   let(:people)   { build(:table, id: :people, records: [record]) }
   let(:animals)  { build(:table, id: :animals) }
   let(:database) { build(:database, tables: [people, animals]) }
-  let(:person)   { Person.load(record) }
-  let(:pet)      { Pet.load(pet_record) }
+  let(:person)   { Person.instantiate(record) }
+  let(:pet)      { Pet.instantiate(pet_record) }
   
   before(:each) do    
     HashtiveRecord::Base.database = database
@@ -29,7 +29,7 @@ describe "HashtiveRecord::Base" do
       end
     end
 
-    describe ".load" do
+    describe ".instantiate" do
       it "instantiates based on a record" do
         person.record.should == record
       end

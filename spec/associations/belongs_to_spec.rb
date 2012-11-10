@@ -11,7 +11,7 @@ describe HashtiveRecord::Associations::BelongsTo do
     
     describe "regular relationship" do
       it "adds it to the reflection" do
-        Pet.reflection.should == {belongs_to: [:person]}
+        Pet.reflection.belongs_tos.should == { person: { id: :person_id, polymorphic: false } }
       end
       
       it "initializes a parent class name and belonger class" do
