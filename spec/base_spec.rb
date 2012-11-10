@@ -37,6 +37,7 @@ describe "HashtiveRecord::Base" do
 
     describe ".find" do
       it "finds the relevant object from the table" do
+        Person.stub(:allowed_attributes).and_return([:name])
         Person.find(record.id).name.should == "Billy"
       end
 
@@ -70,16 +71,41 @@ describe "HashtiveRecord::Base" do
       end
     end
     
+    describe ".columns" do
+      it "adds them to its reflection" do
+        Pet.reflection.should_receive(:add_columns).with(:favourite_food, :name)
+        Pet.columns :favourite_food, :name
+      end
+    end
+    
+    describe ".reflection" do
+      it "has one" do
+        Pet.reflection.should be_a HashtiveRecord::Reflection
+      end
+    end
+    
+    describe ".allowed_attributes" do
+      it "gets them from the reflection" do
+        Pet.reflection.should_receive(:attributes).and_return([:poop, :plop])
+        Pet.allowed_attributes.should == [:poop, :plop]
+      end
+    end
   end
   
   describe "instance methods" do
     describe "#method_missing" do
-      it "delegates to the record" do
-        p = Person.find :wibble
-        p.name.should == "Billy"
-        p.age.should == 12
-        p.id.should == :wibble
+      
+      it "does not delegate to the record if the attribute is not recognised" do
+        person.record.should_not_receive(:cack)
+        expect {person.cack}.to raise_error
       end
+      
+      it "does delegate if the attribute is recognised" do
+        Person.stub(:allowed_attributes).and_return([:cack])
+        person.record.should_receive(:cack)
+        person.cack
+      end
+      
     end
   end
   
