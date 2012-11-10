@@ -16,7 +16,7 @@ module HashtiveRecord
       private
       
       def add_to_reflection
-      
+        
       end
       
       def define_reader

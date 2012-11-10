@@ -8,8 +8,8 @@ describe "HashtiveRecord::Base" do
   let(:people)   { build(:table, id: :people, records: [record]) }
   let(:animals)  { build(:table, id: :animals) }
   let(:database) { build(:database, tables: [people, animals]) }
-  let(:person)   { Person.new(record) }
-  let(:pet)      { Pet.new(pet_record) }
+  let(:person)   { Person.load(record) }
+  let(:pet)      { Pet.load(pet_record) }
   
   before(:each) do    
     HashtiveRecord::Base.database = database
@@ -29,7 +29,7 @@ describe "HashtiveRecord::Base" do
       end
     end
 
-    describe ".new" do
+    describe ".load" do
       it "instantiates based on a record" do
         person.record.should == record
       end
@@ -37,7 +37,7 @@ describe "HashtiveRecord::Base" do
 
     describe ".find" do
       it "finds the relevant object from the table" do
-        Person.stub(:allowed_attributes).and_return([:name])
+        Person.stub(:accessors).and_return([:name])
         Person.find(record.id).name.should == "Billy"
       end
 
@@ -84,10 +84,10 @@ describe "HashtiveRecord::Base" do
       end
     end
     
-    describe ".allowed_attributes" do
+    describe ".accessors" do
       it "gets them from the reflection" do
-        Pet.reflection.should_receive(:attributes).and_return([:poop, :plop])
-        Pet.allowed_attributes.should == [:poop, :plop]
+        Pet.reflection.should_receive(:accessors).and_return([:poop, :plop])
+        Pet.accessors.should == [:poop, :plop]
       end
     end
   end
@@ -101,7 +101,7 @@ describe "HashtiveRecord::Base" do
       end
       
       it "does delegate if the attribute is recognised" do
-        Person.stub(:allowed_attributes).and_return([:cack])
+        Person.stub(:accessors).and_return([:cack])
         person.record.should_receive(:cack)
         person.cack
       end

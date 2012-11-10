@@ -20,7 +20,7 @@ describe "HashtiveRecord::Reflection" do
     end
   end
   
-  describe "add_belongs_to" do
+  describe "#add_belongs_to" do
     it "adds the belongs_to names to its belongs_tos attribute" do
       reflection.add_belongs_to(:thing)
       reflection.belongs_tos.should == { thing: {id: :thing_id, polymorphic: false} }
@@ -31,6 +31,24 @@ describe "HashtiveRecord::Reflection" do
       reflection.belongs_tos.should == { thing:  {id: :thing_id, polymorphic: false},
                                          person: {id: :owner_id, polymorphic: false},
                                          place:  {id: :home_id, polymorphic: true}}
+    end
+  end
+  
+  describe "#accessors" do
+    before(:each) do
+      reflection.add_columns(:plop, :wibble)
+      reflection.add_belongs_to(:thing)
+      reflection.add_belongs_to(:person, as: :owner)
+      reflection.add_belongs_to(:place, as: :home, polymorphic: true)
+    end
+    
+    it "returns all the methods it allows" do
+      reflection.accessors.should =~ [:plop, :plop=,
+                                      :wibble, :wibble=,
+                                      :thing_id, :thing_id=,
+                                      :owner_id, :owner_id=,
+                                      :home_id, :home_id=,:home_class_name, :home_class_name=
+                                      ]
     end
   end
   

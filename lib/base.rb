@@ -2,14 +2,11 @@ module HashtiveRecord
 
   class Base
     extend Macros
-    attr_reader :record
-    
-    def initialize(record)
-      @record = record
-    end
+    attr_accessor :record
+
     
     def method_missing(method, *args, &block)
-      if self.class.allowed_attributes.include?(method)
+      if self.class.accessors.include?(method)
         record.send(method, *args, &block)
       else
         super(method, *args, &block)
@@ -25,6 +22,10 @@ module HashtiveRecord
       
       attr_accessor :table_name, :reflection
       
+      def load(record)
+        new.tap {|item| item.record=record}
+      end
+      
       def inherited(base)
         base.reflection = Reflection.new
         base.table_name ||= base.name.tableize.to_sym if !!base.name
@@ -34,14 +35,14 @@ module HashtiveRecord
         reflection.add_columns(*names)
       end
       
-      def allowed_attributes
-        []
+      def accessors
+        reflection.accessors
       end
       
       def find(id)
         record = table.find(id)
         if !!record
-          new(record)
+          load(record)
         else
           nil
         end
@@ -64,7 +65,7 @@ module HashtiveRecord
       end
       
       def all
-        table.map {|record| new(record) }
+        table.map {|record| load(record) }
       end
       
       def method_missing(method, *args, &block)
