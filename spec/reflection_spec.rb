@@ -27,10 +27,10 @@ describe "HashtiveRecord::Reflection" do
       reflection.add_belongs_to(:person, as: :owner)
       reflection.belongs_tos.should == { thing: {id: :thing_id, polymorphic: false},
                                          person: {id: :owner_id, polymorphic: false}}
-      reflection.add_belongs_to(:place, as: :home, polymorphic: true)
+      reflection.add_belongs_to(:home, polymorphic: true)
       reflection.belongs_tos.should == { thing:  {id: :thing_id, polymorphic: false},
                                          person: {id: :owner_id, polymorphic: false},
-                                         place:  {id: :home_id, polymorphic: true}}
+                                         home:  {id: :home_id, polymorphic: true}}
     end
   end
   
@@ -39,7 +39,7 @@ describe "HashtiveRecord::Reflection" do
       reflection.add_columns(:plop, :wibble)
       reflection.add_belongs_to(:thing)
       reflection.add_belongs_to(:person, as: :owner)
-      reflection.add_belongs_to(:place, as: :home, polymorphic: true)
+      reflection.add_belongs_to(:home, polymorphic: true)
     end
     
     it "returns all the methods it allows" do

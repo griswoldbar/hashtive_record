@@ -64,10 +64,43 @@ describe HashtiveRecord::Associations::BelongsTo do
     end
     
     describe "polymorphic association" do
-      let!(:belongs_to) { described_class.new(Pet, :person, as: :owner, polymorphic: true) }
-      let(:pet) { build(:polymorphic_owned_pet) }
+      let!(:belongs_to) { described_class.new(Pet, :keeper, polymorphic: true) }
       
+      before(:all) do
+        Keeper = Module.new
+        class Monster < HashtiveRecord::Base;include Keeper;end
+        class Alien < HashtiveRecord::Base; include Keeper; end
+      end
       
+      before(:each) do
+        @monster = Monster.instantiate(build(:record, hash: { zorg: {name: "Zorgon"}}))
+        @alien = Alien.instantiate(build(:record, hash: { grey: {name: "The Grey"}}))
+        pet.keeper_id = :zorg
+        pet.keeper_class_name = :monster
+      end
+      
+      it "defines an appropriate getter" do
+        HashtiveRecord::AssociationProxies::PolymorphicParentProxy.should_receive(:build).with(:keeper, :monster, pet.keeper_id)
+        pet.keeper
+      end
+      
+      it "defines an appropriate setter" do
+        HashtiveRecord::AssociationProxies::ParentProxy.stub(:new).and_return(proxy)
+        proxy.should_receive(:valid_klass?).and_return(true)
+        proxy.should_receive(:association=).with(@monster)
+        pet.keeper = @monster
+        pet.keeper_id.should == @monster.id
+        pet.keeper_class_name.should == :monster
+      end
+      
+      it "can be set to an instance of another class" do
+        HashtiveRecord::AssociationProxies::ParentProxy.stub(:new).and_return(proxy)
+        proxy.should_receive(:valid_klass?).and_return(true)
+        proxy.should_receive(:association=).with(@alien)
+        pet.keeper = @alien
+        pet.keeper_id.should == @alien.id
+        pet.keeper_class_name.should == :alien
+      end
       
     end
     

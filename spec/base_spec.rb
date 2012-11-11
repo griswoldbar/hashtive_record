@@ -90,6 +90,7 @@ describe "HashtiveRecord::Base" do
         Pet.accessors.should == [:poop, :plop]
       end
     end
+    
   end
   
   describe "instance methods" do
