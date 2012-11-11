@@ -1,4 +1,4 @@
 class Pet < HashtiveRecord::Base
-  belongs_to :person
+  belongs_to :owner, polymorphic: true
   
 end

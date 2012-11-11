@@ -13,6 +13,10 @@ module HashtiveRecord
         @association_klass = parent_klass_name.to_class
       end
       
+      def inspect
+        association.inspect
+      end
+      
       def valid_klass?(object)
         (object.is_a? association_klass)
       end
