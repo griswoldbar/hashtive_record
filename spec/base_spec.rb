@@ -71,6 +71,14 @@ describe "HashtiveRecord::Base" do
       end
     end
     
+    describe ".has_many" do    
+      it "establishes a has_many to relationship" do
+        Person.has_many(:pets)
+        person.should respond_to :pets
+      end
+    end
+    
+    
     describe ".columns" do
       it "adds them to its reflection" do
         Pet.reflection.should_receive(:add_columns).with(:favourite_food, :name)

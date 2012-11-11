@@ -49,6 +49,10 @@ describe HashtiveRecord::Associations::BelongsTo do
     describe "alternative association name" do
       let!(:belongs_to) { described_class.new(Pet, :person, as: :owner) }
       
+      it "adds it to the reflection" do
+        Pet.reflection.belongs_tos.should == { person: { id: :owner_id, polymorphic: false } }
+      end
+      
       it "defines an appropriate getter" do
         HashtiveRecord::AssociationProxies::ParentProxy.should_receive(:build).with(:person, pet.owner_id)
         pet.owner
@@ -77,6 +81,10 @@ describe HashtiveRecord::Associations::BelongsTo do
         @alien = Alien.instantiate(build(:record, hash: { grey: {name: "The Grey"}}))
         pet.keeper_id = :zorg
         pet.keeper_class_name = :monster
+      end
+      
+      it "adds it to the reflection" do
+        Pet.reflection.belongs_tos[:keeper].should == { id: :keeper_id, polymorphic: true }
       end
       
       it "defines an appropriate getter" do

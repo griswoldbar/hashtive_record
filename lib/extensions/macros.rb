@@ -5,8 +5,8 @@ module HashtiveRecord
       Associations::BelongsTo.new(self, parent_name, options)
     end
   
-    def has_many(collection_name)
-  
+    def has_many(collection_name, options = {})
+      
     end
   
   end

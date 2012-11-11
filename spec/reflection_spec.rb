@@ -34,6 +34,12 @@ describe "HashtiveRecord::Reflection" do
     end
   end
   
+  describe "#adds_has_many" do
+    it "adds the has_many" do
+    
+    end
+  end
+  
   describe "#accessors" do
     before(:each) do
       reflection.add_columns(:plop, :wibble)

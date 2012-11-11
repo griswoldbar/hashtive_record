@@ -18,6 +18,11 @@ module HashtiveRecord
       @belongs_tos[name] = {id: id, polymorphic: polymorphic}
     end
     
+    def add_has_many(name, option = {})
+      # id = (options[:as] ? "#{options[:as]}_id" : "#{name}_id").to_sym
+      # @has_manys[name] = {id: id, polymorphic: polymorphic}
+    end
+    
     def accessors
       @_accessors = []
       add_column_accessors
