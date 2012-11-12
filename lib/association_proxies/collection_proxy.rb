@@ -47,7 +47,7 @@ module HashtiveRecord
       end
       
       def << (object)
-        #TODO: don't forget polymorphics
+        throw "this method doesn't update the foreign key in the object itself"
         if valid_klass?(object)
           collection << object
         else
