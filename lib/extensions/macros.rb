@@ -6,7 +6,7 @@ module HashtiveRecord
     end
   
     def has_many(collection_name, options = {})
-      
+      Associations::HasMany.new(self, collection_name, options)
     end
   
   end

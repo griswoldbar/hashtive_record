@@ -4,6 +4,6 @@ class Symbol
   end
   
   def to_class
-    to_s.classify.constantize
+    to_s.singularize.classify.constantize
   end
 end

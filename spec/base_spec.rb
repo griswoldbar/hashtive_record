@@ -46,6 +46,13 @@ describe "HashtiveRecord::Base" do
       end
     end
 
+    describe ".find_by" do
+      it "finds by the given attribute" do
+        Person.stub(:accessors).and_return([:name])
+        Person.find_by(name: "Billy").each {|person| person.name.should == "Billy" }
+      end
+    end
+    
     describe ".method_missing" do
       it "searches for a record with that name" do
         Person.wibble.instance_variables.should == person.instance_variables

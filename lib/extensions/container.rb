@@ -3,9 +3,9 @@ module HashtiveRecord
     extend ActiveSupport::Concern
     
     def find(id)
-      collection.find { |rec| rec.id == id }
+      collection.find { |thing| thing.id == id }
     end
-  
+
     def method_missing(method, *args, &block)
       if collection.respond_to?(method)
         collection.send(method, *args, &block)

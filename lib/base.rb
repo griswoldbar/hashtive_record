@@ -51,6 +51,10 @@ module HashtiveRecord
         end
       end
       
+      def find_by(fields={})
+        table.find_by(fields).map{|record| instantiate(record) }
+      end
+      
       def table
         database.send(table_name)
       end

@@ -27,7 +27,6 @@ describe HashtiveRecord::AssociationProxies::ParentProxy do
 
   describe "#valid_klass?" do
     it "returns true when the class is correct and false when it isn't" do
-
       Person.stub(:find)
       proxy.valid_klass?(person).should be_true
       proxy.valid_klass?(pet).should be_false
