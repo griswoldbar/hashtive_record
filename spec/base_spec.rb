@@ -33,6 +33,13 @@ describe "HashtiveRecord::Base" do
       it "instantiates based on a record" do
         person.record.should == record
       end
+      
+      it "extends the instance if it has modifiers" do
+        module Slappable def fuck;end;end
+        record.modifiers = [:slappable]
+        p = Person.instantiate(record)
+        p.singleton_class.included_modules.should include Slappable
+      end
     end
 
     describe ".find" do
