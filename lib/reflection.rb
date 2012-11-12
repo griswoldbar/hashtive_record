@@ -1,8 +1,9 @@
 module HashtiveRecord
   class Reflection
-    attr_reader :columns, :belongs_tos, :has_manys
+    attr_reader :columns, :belongs_tos, :has_manys, :owner_class_name
     
-    def initialize
+    def initialize(owner)
+      @owner_class_name = owner.to_s.downcase.to_sym
       @columns = []
       @belongs_tos = {}
       @has_manys = {}
@@ -18,15 +19,16 @@ module HashtiveRecord
       @belongs_tos[name] = {id: id, polymorphic: polymorphic}
     end
     
-    def add_has_many(name, option = {})
-      # id = (options[:as] ? "#{options[:as]}_id" : "#{name}_id").to_sym
-      # @has_manys[name] = {id: id, polymorphic: polymorphic}
+    def add_has_many(name, options = {})
+      id = (options[:as] ? "#{options[:as]}_id" : "#{owner_class_name}_id").to_sym
+      @has_manys[name] = {id: id}
     end
     
     def accessors
       @_accessors = []
       add_column_accessors
       add_belongs_to_accessors
+      add_has_many_accessors
       @_accessors.flatten
     end
     
@@ -45,6 +47,12 @@ module HashtiveRecord
           new_accessors << [class_col_accessor, class_col_accessor.eqify]
         end
         accessors << new_accessors
+      end
+    end
+    
+    def add_has_many_accessors
+      has_manys.inject(@_accessors) do |accessors, thing|
+        accessors << thing[0]
       end
     end
   end

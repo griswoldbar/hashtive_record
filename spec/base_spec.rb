@@ -90,6 +90,10 @@ describe "HashtiveRecord::Base" do
       it "has one" do
         Pet.reflection.should be_a HashtiveRecord::Reflection
       end
+      
+      it "knows who owns it" do
+        Pet.reflection.owner_class_name.should == :pet
+      end
     end
     
     describe ".accessors" do

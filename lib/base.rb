@@ -30,7 +30,7 @@ module HashtiveRecord
       end
       
       def inherited(base)
-        base.reflection = Reflection.new
+        base.reflection = Reflection.new(base)
         base.table_name ||= base.name.tableize.to_sym if !!base.name
       end
       

@@ -1,7 +1,12 @@
 require 'spec_helper'
 
 describe "HashtiveRecord::Reflection" do
-  let(:reflection) { HashtiveRecord::Reflection.new }
+  let(:klass) { mock 'klass' }
+  let(:reflection) { HashtiveRecord::Reflection.new(klass) }
+  
+  before(:each) do
+    klass.stub(:to_s).and_return("Wibble")
+  end
   
   describe ".new" do
     it "initializes various readers" do
@@ -36,7 +41,11 @@ describe "HashtiveRecord::Reflection" do
   
   describe "#adds_has_many" do
     it "adds the has_many" do
-    
+      reflection.add_has_many(:flakes)
+      reflection.has_manys.should == { flakes: {id: :wibble_id }}
+      reflection.add_has_many(:shapes, as: :blah)
+      reflection.has_manys.should == { flakes: {id: :wibble_id},
+                                       shapes: {id: :blah_id} }
     end
   end
   
@@ -46,6 +55,8 @@ describe "HashtiveRecord::Reflection" do
       reflection.add_belongs_to(:thing)
       reflection.add_belongs_to(:person, as: :owner)
       reflection.add_belongs_to(:home, polymorphic: true)
+      reflection.add_has_many(:flakes)
+      reflection.add_has_many(:shapes, as: :blah)
     end
     
     it "returns all the methods it allows" do
@@ -53,7 +64,9 @@ describe "HashtiveRecord::Reflection" do
                                       :wibble, :wibble=,
                                       :thing_id, :thing_id=,
                                       :owner_id, :owner_id=,
-                                      :home_id, :home_id=,:home_class_name, :home_class_name=
+                                      :home_id, :home_id=,:home_class_name, :home_class_name=,
+                                      :flakes,
+                                      :shapes
                                       ]
     end
   end
