@@ -8,6 +8,10 @@ module HashtiveRecord
       record.id
     end
     
+    def modifiers
+      record.modifiers || []
+    end
+    
     def method_missing(method, *args, &block)
       if self.class.accessors.include?(method)
         record.send(method, *args, &block)
@@ -26,7 +30,10 @@ module HashtiveRecord
       attr_accessor :table_name, :reflection
       
       def instantiate(record)
-        new.tap {|item| item.record=record}
+        new.tap do |item| 
+          item.record=record
+          item.modifiers.each {|modifier| item.extend(modifier.to_class)}
+        end
       end
       
       def inherited(base)
