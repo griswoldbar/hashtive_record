@@ -1,4 +1,5 @@
 module HashtiveRecord
+  require 'rubygems'
   require 'active_support/core_ext'
   require 'yaml'
   
