@@ -1,6 +1,7 @@
 require 'rubygems'
-require 'active_support'
-require 'yaml'
+gem 'yaml'
+
+gem 'active_support'
 
 module HashtiveRecord
 
