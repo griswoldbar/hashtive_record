@@ -1,6 +1,6 @@
 module HashtiveRecord
   require 'rubygems'
-  require 'active_support/core_ext'
+  require 'active_support'
   require 'yaml'
   
   Dir.glob("./initializers/*.rb") {|file| require file}
