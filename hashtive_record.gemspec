@@ -6,4 +6,5 @@ Gem::Specification.new do |s|
   s.authors     = ["C. Turtle"]
   s.files       = ["lib/hashtive_record.rb"]
   s.add_runtime_dependency "activesupport"
+  s.add_runtime_dependency "ostruct"
 end
