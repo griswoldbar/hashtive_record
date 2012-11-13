@@ -1,7 +1,9 @@
+require 'rubygems'
+require 'active_support'
+require 'yaml'
+
 module HashtiveRecord
-  require 'rubygems'
-  require 'active_support'
-  require 'yaml'
+
   
   Dir.glob("./initializers/*.rb") {|file| require file}
   Dir.glob("./lib/extensions/*.rb") {|file| require file}
