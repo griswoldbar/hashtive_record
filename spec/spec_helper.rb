@@ -1,7 +1,7 @@
 require 'rspec'
 require 'factory_girl'
 
-require './requirements'
+require './lib/hashtive_record'
 Dir.glob("./spec/support/*.rb") {|file| require file}
 
 
