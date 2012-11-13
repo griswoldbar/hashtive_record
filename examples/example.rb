@@ -1,7 +1,30 @@
-require './lib/hashtive_record'
-Dir.glob("./examples/extensions/*.rb") {|file| require file}
-Dir.glob("./examples/models/*.rb") {|file| require file}
+require 'active_support/core_ext'
 
+require './lib/hashtive_record/initializers/hash'
+require './lib/hashtive_record/initializers/symbol'
+require './lib/hashtive_record/extensions/container'
+require './lib/hashtive_record/extensions/macros'
+require './lib/hashtive_record/storage/database'
+require './lib/hashtive_record/storage/table'
+require './lib/hashtive_record/storage/record'
+require './lib/hashtive_record/base'
+require './lib/hashtive_record/associations'
+require './lib/hashtive_record/loader'
+require './lib/hashtive_record/reflection'  
+require './lib/hashtive_record/associations/belongs_to'
+require './lib/hashtive_record/associations/has_many'
+require './lib/hashtive_record/association_proxies/parent_proxy'
+require './lib/hashtive_record/association_proxies/collection_proxy'
+require './examples/extensions/container'
+require './examples/extensions/droppable'
+require './examples/extensions/killable'
+require './examples/extensions/smashable'
+require './examples/extensions/takeable'
+require './examples/models/actor'
+require './examples/models/connection'
+require './examples/models/item'
+require './examples/models/player'
+require './examples/models/room'
 
 loader = HashtiveRecord::Loader.new('./examples/yamls')
 loader.load
