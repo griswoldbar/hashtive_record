@@ -22,7 +22,7 @@ module HashtiveRecord
         _foreign_key_name = foreign_key_name
         parent_klass.send(:define_method, collection_name) do
           @_children ||= {}
-          @_children[_collection_name] ||= AssociationProxies::CollectionProxy.build(_collection_name, _foreign_key_name, id, self.class.name.downcase.singularize.to_sym)
+          @_children[_collection_name] = AssociationProxies::CollectionProxy.build(self, _collection_name, _foreign_key_name)
         end
       end
       

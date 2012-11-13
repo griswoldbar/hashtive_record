@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe HashtiveRecord::AssociationProxies::CollectionProxy do
-  let(:proxy) { described_class.build(:cars, :park_id, :selfridges, :park)  }
+  let(:park)  { mock 'park' }
+  let(:proxy) { described_class.build(park, :cars, :park_id)  }
   let(:collection) { mock 'collection' }
   let(:reflection) { mock 'reflection' }
   
@@ -11,8 +12,10 @@ describe HashtiveRecord::AssociationProxies::CollectionProxy do
   end
   
   before(:each) do
+    park.stub(:id).and_return(:selfridges)
     Car.stub(:reflection).and_return(reflection)
     reflection.stub(:belongs_tos).and_return(park: {id: :park_id, polymorphic: false})
+    reflection.stub(:accessors).and_return([:park_id])
   end
   
   describe ".build" do
@@ -24,16 +27,21 @@ describe HashtiveRecord::AssociationProxies::CollectionProxy do
     end
 
     context "when polymorphic" do
-      let(:proxy) { described_class.build(:players, :game_id, :awesome_game, :doom)  }
-      
+      let(:doom_game) { mock 'game' }
+      let(:proxy) { described_class.build(doom_game, :players, :game_id)  }
+
       before(:each) do
+        
         class Player < HashtiveRecord::Base
           belongs_to :game, polymorphic: true
         end
         
         class Doom < HashtiveRecord::Base
-          has_many :players, as: :team
+          has_many :players, as: :game
         end
+        
+        doom_game.stub(:id).and_return(:awesome_game)
+        doom_game.stub(:class).and_return(Doom)
       end
       
       it "finds an object of the required type" do
@@ -62,11 +70,12 @@ describe HashtiveRecord::AssociationProxies::CollectionProxy do
   end
   
   describe "<<" do
+    let(:record) { mock 'record' }
     it "adds the object to the collection if valid" do
       Car.stub(:find_by).and_return([])
       car = Car.new
+      car.should_receive(:park_id=).with(:selfridges)
       proxy << car
-      proxy.collection.should include(car)
     end
     
     it "excludes the object if not valid" do
@@ -74,5 +83,9 @@ describe HashtiveRecord::AssociationProxies::CollectionProxy do
       park = Park.new
       expect { proxy << park }.to raise_error(HashtiveRecord::Associations::TypeMismatch)
     end
+    
+    #polymorphics tested in integration tests
+
+    
   end
 end

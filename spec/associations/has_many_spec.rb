@@ -18,7 +18,7 @@ describe HashtiveRecord::Associations::HasMany do
       end
       
       it "defines a getter" do
-        HashtiveRecord::AssociationProxies::CollectionProxy.should_receive(:build).with(:flakes, :box_id, box.id, :box)
+        HashtiveRecord::AssociationProxies::CollectionProxy.should_receive(:build).with(box, :flakes, :box_id)
         box.flakes
       end
       
@@ -41,7 +41,7 @@ describe HashtiveRecord::Associations::HasMany do
       end
       
       it "defines a getter" do
-        HashtiveRecord::AssociationProxies::CollectionProxy.should_receive(:build).with(:items, :container_id, room.id, :room)
+        HashtiveRecord::AssociationProxies::CollectionProxy.should_receive(:build).with(room, :items, :container_id)
         room.items
       end
       
