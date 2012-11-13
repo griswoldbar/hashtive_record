@@ -5,4 +5,5 @@ Gem::Specification.new do |s|
   s.summary     = "Hash-based ORM"
   s.authors     = ["C. Turtle"]
   s.files       = ["lib/hashtive_record.rb"]
+  s.add_runtime_dependency "activesupport"
 end
