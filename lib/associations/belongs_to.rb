@@ -26,7 +26,7 @@ module HashtiveRecord
       
       def define_polymorphic_reader
         _parent_id_name = "#{association_name}_id".to_sym
-        _parent_polymorph_name = "#{association_name}_class_name".to_sym
+        _parent_polymorph_name = "#{association_name}_type".to_sym
         _association_name = association_name
 
         belonger_klass.send(:define_method, association_name) do
@@ -39,7 +39,7 @@ module HashtiveRecord
       
       def define_polymorphic_writer
         _parent_id_name = "#{association_name}_id".to_sym
-        _parent_polymorph_name = "#{association_name}_class_name".to_sym
+        _parent_polymorph_name = "#{association_name}_type".to_sym
         _association_name = association_name
         
         belonger_klass.send(:define_method, association_name.eqify) do |object|   

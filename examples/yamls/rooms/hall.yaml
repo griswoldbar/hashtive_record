@@ -1,0 +1,13 @@
+:hall:
+  :name: "hall"
+  :description: "A large hall"
+  :collections: 
+    :connections:
+      :hall_to_garden:
+        :description: "door"
+        :direction: :south
+        :adjacent_id: :garden
+      :hall_to_ballroom:
+        :description: "passage"
+        :direction: :east
+        :adjacent_id: :ballroom

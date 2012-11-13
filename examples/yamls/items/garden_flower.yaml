@@ -1,0 +1,8 @@
+:garden_flower:
+  :name: "flower"
+  :description: "a pretty flower"
+  :container_id: :garden
+  :container_type: :room
+  :modifiers:
+    :takeable:
+    :droppable:

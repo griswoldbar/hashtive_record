@@ -1,0 +1,4 @@
+:lord:
+  :name: "Lord Ponsonby"
+  :description: "A posh man"
+  :room_id: :hall

@@ -1,0 +1,5 @@
+:butler:
+  :name: "butler"
+  :article: "the"
+  :description: "He is a serious looking man"
+  :room_id: :hall

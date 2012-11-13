@@ -1,0 +1,5 @@
+:hall_chair:
+  :name: "a chair"
+  :description: "a lovely old chair"
+  :container_id: :hall
+  :container_type: :room

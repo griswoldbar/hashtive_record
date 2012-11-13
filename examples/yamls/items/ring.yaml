@@ -1,0 +1,5 @@
+:ring:
+  :name: "ring"
+  :description: "beautiful ring"
+  :container_id: :lord
+  :container_type: :actor

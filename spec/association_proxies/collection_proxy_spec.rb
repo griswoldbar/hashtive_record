@@ -45,7 +45,7 @@ describe HashtiveRecord::AssociationProxies::CollectionProxy do
       end
       
       it "finds an object of the required type" do
-        Player.should_receive(:find_by).with(game_id: :awesome_game, game_class_name: :doom)
+        Player.should_receive(:find_by).with(game_id: :awesome_game, game_type: :doom)
         proxy
       end
     end

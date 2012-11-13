@@ -80,7 +80,7 @@ describe HashtiveRecord::Associations::BelongsTo do
         @monster = Monster.instantiate(build(:record, hash: { zorg: {name: "Zorgon"}}))
         @alien = Alien.instantiate(build(:record, hash: { grey: {name: "The Grey"}}))
         pet.keeper_id = :zorg
-        pet.keeper_class_name = :monster
+        pet.keeper_type = :monster
       end
       
       it "adds it to the reflection" do
@@ -98,7 +98,7 @@ describe HashtiveRecord::Associations::BelongsTo do
         proxy.should_receive(:association=).with(@monster)
         pet.keeper = @monster
         pet.keeper_id.should == @monster.id
-        pet.keeper_class_name.should == :monster
+        pet.keeper_type.should == :monster
       end
       
       it "can be set to an instance of another class" do
@@ -107,7 +107,7 @@ describe HashtiveRecord::Associations::BelongsTo do
         proxy.should_receive(:association=).with(@alien)
         pet.keeper = @alien
         pet.keeper_id.should == @alien.id
-        pet.keeper_class_name.should == :alien
+        pet.keeper_type.should == :alien
       end
       
     end

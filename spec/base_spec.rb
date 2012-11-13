@@ -106,7 +106,7 @@ describe "HashtiveRecord::Base" do
       end
       
       it "knows who owns it" do
-        Pet.reflection.owner_class_name.should == :pet
+        Pet.reflection.owner_type.should == :pet
       end
     end
     

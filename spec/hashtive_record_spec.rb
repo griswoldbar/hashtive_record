@@ -8,8 +8,8 @@ describe "HashtiveRecord" do
     @races = build(:table, id: :races)
     @matches = build(:table, id: :matches)
 
-    @lineker_rec = build(:record, hash: {lineker: {event_id: :footie_match, event_class_name: :match }})
-    @christie_rec = build(:record, hash: {christie: {event_id: :running_race, event_class_name: :race }})
+    @lineker_rec = build(:record, hash: {lineker: {event_id: :footie_match, event_type: :match }})
+    @christie_rec = build(:record, hash: {christie: {event_id: :running_race, event_type: :race }})
     @arsenal_rec = build(:record, hash: {footie_match: {stadium: "Arsenal"} } )
     @olympic_rec = build(:record, hash: {running_race: {stadium: "Olympic"} } )
     @players << @lineker_rec

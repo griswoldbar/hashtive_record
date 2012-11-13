@@ -1,0 +1,4 @@
+:gardener:
+  :name: "gardener"
+  :description: "A stupid looking man"
+  :room_id: :garden

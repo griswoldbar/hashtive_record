@@ -64,7 +64,7 @@ describe "HashtiveRecord::Reflection" do
                                       :wibble, :wibble=,
                                       :thing_id, :thing_id=,
                                       :owner_id, :owner_id=,
-                                      :home_id, :home_id=,:home_class_name, :home_class_name=,
+                                      :home_id, :home_id=,:home_type, :home_type=,
                                       :flakes,
                                       :shapes
                                       ]
