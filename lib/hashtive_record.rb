@@ -1,8 +1,8 @@
-require 'rubygems'
-gem 'yaml'
+require 'bundler'
 
-gem 'active_support'
+Bundler.require
 
+require 'active_support/core_ext'
 module HashtiveRecord
 
   
