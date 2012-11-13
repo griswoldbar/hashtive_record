@@ -36,7 +36,7 @@ describe "HashtiveRecord::Base" do
       
       it "extends the instance if it has modifiers" do
         module Slappable;end
-        record.modifiers = [:slappable]
+        Person.any_instance.stub(:modifier_modules).and_return [:slappable]
         p = Person.instantiate(record)
         p.singleton_class.included_modules.should include Slappable
       end

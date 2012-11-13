@@ -3,13 +3,13 @@ module HashtiveRecord
   class Base
     extend Macros
     attr_accessor :record
-
+        
     def id
       record.id
     end
     
-    def modifiers
-      record.modifiers || []
+    def modifier_modules
+      record.modifiers.marshal_dump.keys rescue []
     end
     
     def method_missing(method, *args, &block)
@@ -32,7 +32,7 @@ module HashtiveRecord
       def instantiate(record)
         new.tap do |item| 
           item.record=record
-          item.modifiers.each {|modifier| item.extend(modifier.to_class)}
+          item.modifier_modules.each {|modifier| item.extend(modifier.to_class)}
         end
       end
       

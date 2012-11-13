@@ -3,7 +3,7 @@ class Room < HashtiveRecord::Base
   
   has_many :actors
   has_many :players
-  has_many :connections 
+  has_many :connections, as: :adjacent
   
 
 

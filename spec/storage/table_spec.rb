@@ -15,6 +15,13 @@ describe "HashtiveRecord::Storage::Table" do
     end
   end
   
+  describe "#klass" do
+    it "returns the corresponding class" do
+      class Thing;end
+      table.klass.should == Thing
+    end
+  end
+  
   describe "#find_by" do
     before { table.collection = [record1,record2,record3] }
     

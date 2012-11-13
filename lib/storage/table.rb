@@ -12,6 +12,10 @@ module HashtiveRecord
         @records = []
       end
         
+      def klass
+        id.to_class
+      end
+      
       def find_by(attributes={})
         attributes.inject(collection) do |selected, attribute|
           selected.select{|record| record.send(attribute[0]) == attribute[1] }
