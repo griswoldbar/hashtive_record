@@ -3,6 +3,7 @@ module HashtiveRecord
     attr_reader :folder, :tables
     
     def initialize(folder)
+      puts "WARNING: not correctly parsing nested objects in YAML files yet"
       @folder = folder
     end
     
