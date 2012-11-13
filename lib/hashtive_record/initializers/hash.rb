@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class Hash
   def to_ostruct
     arr = map do |k, v|
