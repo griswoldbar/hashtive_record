@@ -36,6 +36,13 @@ module HashtiveRecord
         end
       end
       
+      def build(id, attrs={})
+        attrs.reject! {|attr| !accessors.include?(attr) }
+        record = Storage::Record.new(id => attrs)
+        table << record
+        instantiate(record)
+      end
+      
       def inherited(base)
         base.reflection = Reflection.new(base)
         base.table_name ||= base.name.tableize.to_sym if !!base.name
