@@ -41,6 +41,19 @@ describe "HashtiveRecord::Base" do
         p.singleton_class.included_modules.should include Slappable
       end
     end
+    
+    describe ".build" do
+      before { Person.stub(:accessors).and_return([:name, :age])}
+      it "creates a new instance with its own record and removes bad accessors" do
+        person = Person.build(:elvis, name: "Elvis", age: 55, fave_colour: "blue")
+        person.name.should == "Elvis"
+        person.age.should == 55
+        person.should_not respond_to :fave_colour
+        person = Person.find(:elvis)
+        person.name.should == "Elvis"
+        person.age.should == 55
+      end
+    end
 
     describe ".find" do
       it "finds the relevant object from the table" do
