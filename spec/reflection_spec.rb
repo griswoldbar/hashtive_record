@@ -28,14 +28,14 @@ describe "HashtiveRecord::Reflection" do
   describe "#add_belongs_to" do
     it "adds the belongs_to names to its belongs_tos attribute" do
       reflection.add_belongs_to(:thing)
-      reflection.belongs_tos.should == { thing: {id: :thing_id, polymorphic: false} }
+      reflection.belongs_tos.should == { thing: {class_name: :thing, id: :thing_id, polymorphic: false} }
       reflection.add_belongs_to(:person, as: :owner)
-      reflection.belongs_tos.should == { thing: {id: :thing_id, polymorphic: false},
-                                         person: {id: :owner_id, polymorphic: false}}
+      reflection.belongs_tos.should == { thing: {class_name: :thing, id: :thing_id, polymorphic: false},
+                                         owner: {class_name: :person, id: :owner_id, polymorphic: false}}
       reflection.add_belongs_to(:home, polymorphic: true)
-      reflection.belongs_tos.should == { thing:  {id: :thing_id, polymorphic: false},
-                                         person: {id: :owner_id, polymorphic: false},
-                                         home:  {id: :home_id, polymorphic: true}}
+      reflection.belongs_tos.should == { thing:  {class_name: :thing, id: :thing_id, polymorphic: false},
+                                         owner: {class_name: :person, id: :owner_id, polymorphic: false},
+                                         home:   {class_name: :home, id: :home_id, polymorphic: true}}
     end
   end
   

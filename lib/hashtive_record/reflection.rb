@@ -14,9 +14,11 @@ module HashtiveRecord
     end
     
     def add_belongs_to(name, options = {})
-      id = (options[:as] ? "#{options[:as]}_id" : "#{name}_id").to_sym
+      belongee = (options[:as] || name)
+      id = "#{belongee.to_s}_id".to_sym
       polymorphic = options[:polymorphic] || false
-      @belongs_tos[name] = {id: id, polymorphic: polymorphic}
+      class_name = (polymorphic ? belongee : name)
+      @belongs_tos[belongee] = {class_name: class_name, id: id, polymorphic: polymorphic}
     end
     
     def add_has_many(name, options = {})

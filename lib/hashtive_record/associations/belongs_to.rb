@@ -73,7 +73,7 @@ module HashtiveRecord
         
         belonger_klass.send(:define_method, association_name.eqify) do |object|          
           @_parents ||= {}
-          @_parents[_association_name] ||= AssociationProxies::ParentProxy.new(_parent_klass_name)       
+          @_parents[_association_name] ||= AssociationProxies::ParentProxy.new(_parent_klass_name)
           raise TypeMismatch, "#{object}" unless @_parents[_association_name].valid_klass?(object)
           @_parents[_association_name].association = object
           send("#{_parent_id_name}=", object.id)

@@ -2,16 +2,20 @@ require 'spec_helper'
 
 describe HashtiveRecord::Associations::BelongsTo do
   
-  let!(:belongs_to) { described_class.new(Pet, :person) }
+  let(:belongs_to) { described_class.new(Pet, :person) }
   let(:pet) { build(:pet) }
   let(:person) { build(:person) }
   let(:proxy) { mock 'proxy' }
   
+  before(:each) do
+    Pet.reflection = HashtiveRecord::Reflection.new(self)
+    belongs_to
+  end
   describe ".new" do
     
     describe "regular relationship" do
       it "adds it to the reflection" do
-        Pet.reflection.belongs_tos.should == { person: { id: :person_id, polymorphic: false } }
+        Pet.reflection.belongs_tos.should == { person: { class_name: :person, id: :person_id, polymorphic: false } }
       end
       
       it "initializes a parent class name and belonger class" do
@@ -50,7 +54,7 @@ describe HashtiveRecord::Associations::BelongsTo do
       let!(:belongs_to) { described_class.new(Pet, :person, as: :owner) }
       
       it "adds it to the reflection" do
-        Pet.reflection.belongs_tos.should == { person: { id: :owner_id, polymorphic: false } }
+        Pet.reflection.belongs_tos.should == { owner: { class_name: :person, id: :owner_id, polymorphic: false } }
       end
       
       it "defines an appropriate getter" do
@@ -84,7 +88,7 @@ describe HashtiveRecord::Associations::BelongsTo do
       end
       
       it "adds it to the reflection" do
-        Pet.reflection.belongs_tos[:keeper].should == { id: :keeper_id, polymorphic: true }
+        Pet.reflection.belongs_tos[:keeper].should == { class_name: :keeper, id: :keeper_id, polymorphic: true }
       end
       
       it "defines an appropriate getter" do

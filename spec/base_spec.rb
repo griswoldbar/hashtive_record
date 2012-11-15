@@ -101,12 +101,15 @@ describe "HashtiveRecord::Base" do
     end
     
     describe ".reflection" do
+      before do
+        class Wonker < HashtiveRecord::Base;end
+      end
       it "has one" do
-        Pet.reflection.should be_a HashtiveRecord::Reflection
+        Wonker.reflection.should be_a HashtiveRecord::Reflection
       end
       
       it "knows who owns it" do
-        Pet.reflection.owner_type.should == :pet
+        Wonker.reflection.owner_type.should == :wonker
       end
     end
     
