@@ -11,7 +11,7 @@ describe HashtiveRecord::Associations::BelongsTo do
     
     describe "regular relationship" do
       it "adds it to the reflection" do
-        Pet.reflection.belongs_tos.should == { person: { id: :person_id, polymorphic: false } }
+        Pet.reflection.belongs_tos.should == { person: { id: :person_id, class_name: :person, polymorphic: false } }
       end
       
       it "initializes a parent class name and belonger class" do
@@ -47,10 +47,10 @@ describe HashtiveRecord::Associations::BelongsTo do
 
     
     describe "alternative association name" do
-      let!(:belongs_to) { described_class.new(Pet, :person, as: :owner) }
+      let!(:belongs_to) { described_class.new(Pet, :owner, class_name: :player) }
       
       it "adds it to the reflection" do
-        Pet.reflection.belongs_tos.should == { person: { id: :owner_id, polymorphic: false } }
+        Pet.reflection.belongs_tos.should == { owner: { id: :owner_id, class_name: :player, polymorphic: false } }
       end
       
       it "defines an appropriate getter" do
