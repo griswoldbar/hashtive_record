@@ -47,18 +47,24 @@ describe HashtiveRecord::Associations::BelongsTo do
 
     
     describe "alternative association name" do
-      let!(:belongs_to) { described_class.new(Pet, :owner, class_name: :player) }
+      before(:each) do
+        Pet.reflection = HashtiveRecord::Reflection.new(Pet)
+      end
       
       it "adds it to the reflection" do
+        described_class.new(Pet, :owner, class_name: :player)
         Pet.reflection.belongs_tos.should == { owner: { id: :owner_id, class_name: :player, polymorphic: false } }
       end
       
       it "defines an appropriate getter" do
-        HashtiveRecord::AssociationProxies::ParentProxy.should_receive(:build).with(:person, pet.owner_id)
+        pet.stub(:owner_id).and_return(:bob)
+        HashtiveRecord::AssociationProxies::ParentProxy.should_receive(:build).with(:player, pet.owner_id)
+        described_class.new(Pet, :owner, class_name: :player)
         pet.owner
       end
       
       it "defines an appropriate setter" do
+        described_class.new(Pet, :owner, class_name: :player)
         HashtiveRecord::AssociationProxies::ParentProxy.stub(:new).and_return(proxy)
         proxy.should_receive(:valid_klass?).and_return(true)
         proxy.should_receive(:association=).with(person)
@@ -84,7 +90,7 @@ describe HashtiveRecord::Associations::BelongsTo do
       end
       
       it "adds it to the reflection" do
-        Pet.reflection.belongs_tos[:keeper].should == { id: :keeper_id, polymorphic: true }
+        Pet.reflection.belongs_tos[:keeper].should == {:id=>:keeper_id, :class_name=>:keeper, :polymorphic=>true}
       end
       
       it "defines an appropriate getter" do
