@@ -74,7 +74,7 @@ describe HashtiveRecord::AssociationProxies::CollectionProxy do
     it "adds the object to the collection if valid" do
       Car.stub(:find_by).and_return([])
       car = Car.new
-      car.should_receive(:park_id=).with(:selfridges)
+      car.should_receive(:park=).with(park)
       proxy << car
     end
     
