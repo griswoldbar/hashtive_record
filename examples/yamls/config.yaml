@@ -1,0 +1,9 @@
+:tables:
+  - :actors
+  - :connections
+  - :items
+  - :players
+  - :rooms
+:synonyms:
+  :exits: :connections
+  :entrances: :connections

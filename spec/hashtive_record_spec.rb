@@ -67,6 +67,7 @@ describe "HashtiveRecord" do
       @arsenal.players << @christie
       @arsenal.players.map(&:record).should =~ [@lineker_rec, @christie_rec]
       @lineker.event = @olympic
+      puts @lineker.class.reflection.belongs_tos
       @arsenal.players.map(&:record).should =~ [@christie_rec]
       @olympic.players.map(&:record).should =~ [@lineker_rec]
     end
@@ -89,7 +90,6 @@ describe "HashtiveRecord" do
       @wanky.overlord.id.should == :christie
       @wanky.master.id.should == :christie
       @lineker.serfs.map(&:id).should =~ [:plonker]
-      
     end
   end
 

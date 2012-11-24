@@ -2,8 +2,8 @@
   :name: "the ballroom"
   :description: "A beautiful ballroom"
   :collections: 
-    :connections:
+    :exits:
       :ballroom_to_hall:
         :description: "A passage"
         :direction: :west
-        :adjacent_id: :hall
+        :entrance_id: :hall
