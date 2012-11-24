@@ -14,16 +14,16 @@ module HashtiveRecord
     end
     
     def add_belongs_to(name, options = {})
-      belongee = (options[:as] || name)
-      id = "#{belongee.to_s}_id".to_sym
+      id = "#{name}_id".to_sym
+      class_name = options[:class_name] || name
       polymorphic = options[:polymorphic] || false
-      class_name = (polymorphic ? belongee : name)
-      @belongs_tos[belongee] = {class_name: class_name, id: id, polymorphic: polymorphic}
+      @belongs_tos[name] = {id: id, class_name: class_name, polymorphic: polymorphic}
     end
     
     def add_has_many(name, options = {})
-      id = (options[:as] ? "#{options[:as]}_id" : "#{owner_type}_id").to_sym
-      @has_manys[name] = {id: id}
+      class_name = (options[:class_name] || name.singularize)
+      foreign_key = (options[:foreign_key] || owner_type.singularize.idify)
+      @has_manys[name] = {foreign_key: foreign_key, class_name: class_name}
     end
     
     def accessors

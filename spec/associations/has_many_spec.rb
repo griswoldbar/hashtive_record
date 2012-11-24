@@ -14,7 +14,7 @@ describe HashtiveRecord::Associations::HasMany do
       
       it "adds it to the reflection" do
         Box.has_many(:flakes)
-        Box.reflection.has_manys[:flakes].should == {id: :box_id}
+        Box.reflection.has_manys[:flakes].should == {:foreign_key=>:box_id, :class_name=>:flake}
       end
       
       it "defines a getter" do
@@ -30,14 +30,14 @@ describe HashtiveRecord::Associations::HasMany do
           belongs_to :container, polymorphic: :true
         end
         class Room < HashtiveRecord::Base
-          has_many :items, as: :container
+          has_many :items, foreign_key: :container_id
         end
       end
       
       let(:room) { Room.instantiate(build(:record, hash: {bedroom: {name: "Master bedroom"}}))}
       
       it "adds it to the reflection" do
-        Room.reflection.has_manys[:items].should == {id: :container_id}
+        Room.reflection.has_manys[:items].should == {:foreign_key=>:container_id, :class_name=>:item}
       end
       
       it "defines a getter" do

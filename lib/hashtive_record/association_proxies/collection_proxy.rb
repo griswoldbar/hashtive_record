@@ -5,7 +5,7 @@ module HashtiveRecord
       attr_reader :owner, :collection_klass, :parent_association_name, :foreign_key_name
                     # monster, Pet,             :owner,                  :owner_id
                     
-      def self.build(owner, collection_name, foreign_key_name)        
+      def self.build(owner, collection_name, foreign_key_name)
         new(owner, collection_name, foreign_key_name).tap do |proxy|      
           if proxy.polymorphic?
             proxy.association_klass_name = (proxy.parent_association_name.to_s+"_type").to_sym
@@ -45,8 +45,10 @@ module HashtiveRecord
       
       def << (object)
         if valid_klass?(object)
-          object.send(foreign_key_name.eqify, owner.id)
-          object.send(association_klass_name.eqify, owner.class.name.downcase.to_sym) if polymorphic?
+          # object.send(foreign_key_name.eqify, owner.id)
+          # object.send(association_klass_name.eqify, owner.class.name.downcase.to_sym) if polymorphic?
+          # parents = object.instance_variable_get(:@_parents)
+          object.send(parent_association_name.eqify,owner)
         else
           raise HashtiveRecord::Associations::TypeMismatch, object
         end

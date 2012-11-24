@@ -3,8 +3,8 @@ class Room < HashtiveRecord::Base
   
   has_many :actors
   has_many :players
-  has_many :connections, as: :adjacent
+  has_many :exits, class_name: :connection, foreign_key: :exit_id
+  has_many :entrances, class_name: :connection, foreign_key: :entrance_id
   
-
 
 end

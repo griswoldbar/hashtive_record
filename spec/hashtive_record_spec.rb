@@ -27,7 +27,16 @@ describe "HashtiveRecord" do
     
     module Event
       extend ActiveSupport::Concern
-      included { has_many :players, as: :event }
+      included { has_many :players, foreign_key: :event_id }
+    end
+    
+    module Serf;end
+    module Eunuch;end
+    class Dork < HashtiveRecord::Base
+      # include Serf
+      # include Eunuch
+      belongs_to :master, class_name: :player 
+      belongs_to :overlord, class_name: :player
     end
     
     module Hero;end
@@ -39,8 +48,9 @@ describe "HashtiveRecord" do
     
     class Player < HashtiveRecord::Base
       belongs_to :event, polymorphic: true
-      has_many :slaves, class_name: :dork
-      has_many :eunuchs, class_name: :dork
+
+      has_many :serfs, class_name: :dork, foreign_key: :master_id
+      has_many :eunuchs, class_name: :dork, foreign_key: :overlord_id
     end
     
     class Race < HashtiveRecord::Base
@@ -79,9 +89,14 @@ describe "HashtiveRecord" do
     end
     
     it "works" do
-      @wanky.hero = @lineker
-      @plonker.hero = @lineker
-      @lineker.heroes.should resemble([@wanky,@dorky])
+      @wanky.master = @lineker
+      @plonker.master = @lineker
+      @lineker.serfs.map(&:id).should =~ [:wanky,:plonker]
+      @christie.eunuchs << @wanky
+      @christie.serfs << @wanky
+      @wanky.overlord.id.should == :christie
+      @wanky.master.id.should == :christie
+      @lineker.serfs.map(&:id).should =~ [:plonker]
     end
   end
 

@@ -2,11 +2,11 @@
   :name: "garden"
   :description: "A beautiful garden"
   :collections:
-    :connections:
+    :exits:
       :garden_to_hall:
         :description: "door"
         :direction: :north
-        :adjacent_id: :hall
+        :entrance_id: :hall
     :actors:
         :idiot:
           :name: "Joffrey"
