@@ -136,6 +136,18 @@ describe "HashtiveRecord::Base" do
   end
   
   describe "instance methods" do
+    
+    describe "#modify" do
+      before(:each) do
+        module Wibblable; end
+      end
+      
+      it "adds the extension to its modifiers if not already present" do
+        person.modify(:wibblable)
+        person.record.modifiers.marshal_dump.keys.should include(:wibblable)
+        person.singleton_class.included_modules.should include(Wibblable)
+      end
+    end
     describe "#method_missing" do
       
       it "does not delegate to the record if the attribute is not recognised" do

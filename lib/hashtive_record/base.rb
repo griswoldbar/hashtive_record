@@ -24,6 +24,12 @@ module HashtiveRecord
       super || record.respond_to?(method, include_private)
     end
     
+    def modify(modifier)
+      record.send(:modifiers=, OpenStruct.new) unless record.modifiers
+      record.modifiers.send(modifier.eqify, nil) unless modifier_modules.include?(modifier)
+      extend(modifier.to_class)
+    end
+    
     
     class<<self
       
