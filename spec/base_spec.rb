@@ -137,13 +137,13 @@ describe "HashtiveRecord::Base" do
   
   describe "instance methods" do
     
-    describe "#modify" do
+    describe "#add_modifier" do
       before(:each) do
         module Wibblable; end
       end
       
       it "adds the extension to its modifiers if not already present" do
-        person.modify(:wibblable)
+        person.add_modifier(:wibblable)
         person.record.modifiers.marshal_dump.keys.should include(:wibblable)
         person.singleton_class.included_modules.should include(Wibblable)
       end
