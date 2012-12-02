@@ -14,7 +14,6 @@ module HashtiveRecord
       "
     end
 
-
     def self.included(base)
       base.extend(ClassMethods)
       base.setup_defaults

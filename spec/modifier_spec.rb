@@ -17,7 +17,7 @@ describe "Modifier" do
       include HashtiveRecord::Modifier
       defaults message: "Oh bugger", 
                new_name: "wankered thing",
-               new_description: "it's completely fucked"
+               new_description: "the ==placeholder== is completely fucked"
                  
     end
     
@@ -68,7 +68,7 @@ describe "Modifier" do
     it "outputs the modules's default description if none is given at instance level" do
       original_description = thing.description
       thing.add_modifier(:plonk)
-      thing.plonk_description.should == "it's completely fucked"
+      thing.plonk_description.should == "the #{thing.name} is completely fucked"
     end
     
     it "outputs the instance's description if supplied" do
