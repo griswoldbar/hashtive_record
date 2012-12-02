@@ -1,7 +1,7 @@
 module HashtiveRecord
   module Modifier
-    def set_message(text, mod_name, thing_name)
-      text.gsub!(/==placeholder==/, thing_name)
+    def set_message(text, mod_name, thing_name=nil)
+      text.gsub!(/==placeholder==/, thing_name) if thing_name
       reader = "#{mod_name}_message"
       instance_variable_set("@"+reader, text)
 
@@ -23,7 +23,12 @@ module HashtiveRecord
         text = self.message
         instance_eval "
         def self.extended(thing)
-          thing.set_message %Q{#{text}}, %Q{#{mod_name}}, thing.name
+          if thing.modifier_modules.include?(:#{mod_name}) && thing.record.modifiers.#{mod_name} && thing.record.modifiers.#{mod_name}.message
+            text = thing.record.modifiers.#{mod_name}.message
+            thing.set_message text, %Q{#{mod_name}}
+          else
+            thing.set_message %Q{#{text}}, %Q{#{mod_name}}, thing.name
+          end
         end
         "
       end
