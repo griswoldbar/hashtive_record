@@ -15,6 +15,6 @@
           :name: "Milady"
           :description: "The lady of the manor"
           :modifiers:
-            :killable:
-              :kill_message: "You brutally murder Milady. She slumps to the floor, dead"
-              :kill_description: "Milady lies dead on the floor"
+            :kill:
+              :message: "You brutally murder Milady. She slumps to the floor, dead"
+              :description: "Milady lies dead on the floor"
