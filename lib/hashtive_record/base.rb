@@ -8,6 +8,10 @@ module HashtiveRecord
       record.id
     end
     
+    def screen_name
+      record.screen_name || record.name
+    end
+    
     def modifier_modules
       record.modifiers.marshal_dump.keys rescue []
     end
@@ -34,7 +38,7 @@ module HashtiveRecord
     class<<self
       
       attr_accessor :table_name, :reflection
-      
+    
       def instantiate(record)
         new.tap do |item| 
           item.record=record
@@ -52,6 +56,7 @@ module HashtiveRecord
       def inherited(base)
         base.reflection = Reflection.new(base)
         base.table_name ||= base.name.tableize.to_sym if !!base.name
+        base.columns :screen_name, :name, :description
       end
       
       def columns(*names)

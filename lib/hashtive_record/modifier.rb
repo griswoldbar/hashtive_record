@@ -1,8 +1,8 @@
 module HashtiveRecord
   module Modifier
 
-    def define_reader(attribute, text, mod_name, thing_name=nil)
 
+    def define_reader(attribute, text, mod_name, thing_name=nil)
       text = text.gsub(/==placeholder==/, thing_name) if thing_name
       reader = "#{mod_name}_#{attribute}"
       instance_variable_set("@"+reader, text)
@@ -35,8 +35,15 @@ module HashtiveRecord
               thing.define_reader attribute, eval("#{attribute}_text"), "#{mod_name}", thing.name
             end
           end
-
         end
+        
+        define_method mod_name do
+          self.screen_name = self.send("#{mod_name}_name")
+          self.description = self.send("#{mod_name}_description")
+          self.send("#{mod_name}_message")
+        end
+        
+        
       end
       
       def message

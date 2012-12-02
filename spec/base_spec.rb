@@ -162,6 +162,18 @@ describe "HashtiveRecord::Base" do
       end
       
     end
+    
+    describe "#screen_name" do
+      it "returns the name if undefined" do
+        person.screen_name.should == person.name
+      end
+      
+      it "returns the screen name if defined" do
+        person.screen_name = "plonk"
+        person.screen_name.should == "plonk"
+      end
+    end
+    
   end
   
   
