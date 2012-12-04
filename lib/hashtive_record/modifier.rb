@@ -1,7 +1,29 @@
 module HashtiveRecord
   module Modifier
+    extend self
 
+    attr_accessor :mod
+    
+    def configure(&block)  
+      instance_eval(&block)  
+    end
+    
+    def definitions=val
+      @definitions = val
+    end
+        
+    def definitions  
+      @definitions ||= OpenStruct.new  
+    end  
 
+    def text(name, options={})    
+      definitions.send(name.eqify, options)
+    end
+    
+    def mod_name
+      name.downcase.to_sym
+    end
+    
     def define_reader(attribute, text, mod_name, thing_name=nil)
       text = text.gsub(/==placeholder==/, thing_name) if thing_name
       reader = "#{mod_name}_#{attribute}"
@@ -14,9 +36,17 @@ module HashtiveRecord
       "
     end
 
-    def self.included(base)
+    def included(base)
+      base.extend(self)
       base.extend(ClassMethods)
-      base.setup_defaults
+      base.definitions = self.definitions
+    end
+    
+    def extended(base)
+      if base.class.name != "Module"
+        base.modifiers.send(mod_name.eqify, {}) unless base.modifiers.respond_to?(mod_name)
+        base.modifiers.send(mod_name).merge!(self.definitions.marshal_dump) 
+      end
     end
     
     module ClassMethods
@@ -27,6 +57,7 @@ module HashtiveRecord
         description_text = self.new_description
         
         define_singleton_method :extended do |thing|
+          thing.definitions = 
           [:message, :description, :name].each do |attribute|
             if thing.modifier_modules.include?(mod_name.to_sym) && thing.record.modifiers.send(mod_name) && thing.record.modifiers.send(mod_name).send(attribute)
               text = thing.record.modifiers.send(mod_name).send(attribute)
@@ -46,26 +77,18 @@ module HashtiveRecord
         
       end
       
-      def message
-        "You #{name.downcase} the ==placeholder=="
-      end
+      # def message
+      #   "You #{name.downcase} the ==placeholder=="
+      # end
+      # 
+      # def new_name
+      #   "#{name.downcase}ed ==placeholder=="
+      # end
+      # 
+      # def new_description
+      #   "the ==placeholder== has been #{name.downcase}ed"
+      # end
       
-      def new_name
-        "#{name.downcase}ed ==placeholder=="
-      end
-      
-      def new_description
-        "the ==placeholder== has been #{name.downcase}ed"
-      end
-      
-      def defaults(options)
-        options.each {|k,v|
-          define_singleton_method k do
-            v
-          end
-        }
-        setup_defaults
-      end
     end
 
   end

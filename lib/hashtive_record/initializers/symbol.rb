@@ -3,6 +3,10 @@ class Symbol
     (to_s + "=").to_sym
   end
   
+  def eqnilify
+    (to_s + "||=").to_sym
+  end
+  
   def idify
     (to_s + "_id").to_sym
   end

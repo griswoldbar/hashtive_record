@@ -2,6 +2,8 @@ require 'active_support/core_ext'
 
 require 'hashtive_record/initializers/hash'
 require 'hashtive_record/initializers/symbol'
+require 'hashtive_record/initializers/open_struct'
+
 require 'hashtive_record/extensions/container'
 require 'hashtive_record/extensions/macros'
 require 'hashtive_record/storage/database'
@@ -19,13 +21,6 @@ require 'hashtive_record/association_proxies/collection_proxy'
 
 module HashtiveRecord
 
-  
-  # Dir.glob("./lib/hashtive_record/initializers/*.rb") {|file| require file}
-  # Dir.glob("./lib/hashtive_record/extensions/*.rb") {|file| require file}
-  # Dir.glob("./lib/hashtive_record/storage/*.rb") {|file| require file}
-
-  # Dir.glob("./lib/hashtive_record/*.rb") {|file| require file}
-  # Dir.glob("./lib/hashtive_record/**/*.rb") {|file| require file}
   
   class RecordError < Exception; end
   

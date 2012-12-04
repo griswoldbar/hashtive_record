@@ -1,7 +1,5 @@
 module Kill
   include HashtiveRecord::Modifier
-  # 
-  # # modifier :kill
-  # 
+  text :new_name, {default: lambda {|mod| "You utterly #{mod} the ==placeholder" }}
   
 end

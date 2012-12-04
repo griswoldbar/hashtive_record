@@ -8,6 +8,14 @@ module HashtiveRecord
       record.id
     end
     
+    def modifiers
+      record.modifiers ||= OpenStruct.new
+    end
+    
+    def modifier_options
+      @modifier_options ||= Hash.new
+    end
+    
     def screen_name
       record.screen_name || record.name
     end
@@ -56,7 +64,7 @@ module HashtiveRecord
       def inherited(base)
         base.reflection = Reflection.new(base)
         base.table_name ||= base.name.tableize.to_sym if !!base.name
-        base.columns :screen_name, :name, :description
+        base.columns :screen_name, :name, :description  #TODO- move to config
       end
       
       def columns(*names)
