@@ -16,5 +16,4 @@
           :description: "The lady of the manor"
           :modifiers:
             :kill:
-              :message: "You brutally murder Milady. She slumps to the floor, dead"
               :description: "Milady lies dead on the floor"

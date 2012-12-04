@@ -1,5 +1,5 @@
 HashtiveRecord::Modifier.configure do
-  text :name, {default: lambda {|mod|"#{mod}ed ==placeholder=="}}
-  text :message,  {default: lambda {|mod|"You #{mod} the ==placeholder=="}}
-  text :description, {default: lambda {|mod| "the ==placeholder== has been #{mod}ed"}}
+  text(:name)        {|mod|"#{mod}ed ==placeholder=="}
+  text(:message)     {|mod|"You #{mod} the ==placeholder=="}
+  text(:description) {|mod| "the ==placeholder== has been #{mod}ed"}
 end

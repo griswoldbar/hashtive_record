@@ -12,6 +12,10 @@ module HashtiveRecord
       record.modifiers ||= OpenStruct.new
     end
     
+    def modifiers=(val)
+      record.modifiers=val
+    end
+    
     def modifier_options
       @modifier_options ||= Hash.new
     end
@@ -38,7 +42,7 @@ module HashtiveRecord
     
     def add_modifier(modifier)
       record.send(:modifiers=, OpenStruct.new) unless record.modifiers
-      record.modifiers.send(modifier.eqify, nil) unless modifier_modules.include?(modifier)
+      record.modifiers.send(modifier.eqify, OpenStruct.new) unless modifier_modules.include?(modifier)
       extend(modifier.to_class)
     end
     
