@@ -1,5 +1,5 @@
 module Kill
   include HashtiveRecord::Modifier
-  text(:name) {|mod| "You utterly #{mod} the ==placeholder" }
+  text(:name) {|mod,thing| "You utterly #{mod} the #{thing.name}" }
   
 end

@@ -43,8 +43,11 @@ module HashtiveRecord
     
     def extended(base)
       if base.class.name != "Module"
-        modifiers = self.definitions.marshal_dump.merge(base.modifiers.send(mod_name).marshal_dump).to_ostruct
-        base.modifiers.send(mod_name.eqify, modifiers)
+        modifiers = self.definitions.marshal_dump.merge(base.modifiers.send(mod_name).marshal_dump)
+        modifiers.each do |modifier|
+          throw "this is where i got up to - define e.g. 'kill' method"
+          # base.send(:define_singleton_method
+        end
       end
     end
     
