@@ -18,8 +18,8 @@ module HashtiveRecord
       definitions.meth = block
     end
 
-    def text(name, &block)    
-      definitions.send(name.eqify, block)
+    def text(name, str=nil, &block)    
+      definitions.send(name.eqify, str || block)
     end
     
     def mod_name
@@ -28,7 +28,7 @@ module HashtiveRecord
 
     def included(base)
       base.extend(self)
-      base.definitions = self.definitions
+      base.definitions = self.definitions.dup
     end
     
     def extended(base)
