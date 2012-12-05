@@ -1,3 +1,4 @@
+require_relative "../../examples/extensions/trifik"
 FactoryGirl.define do
   factory :model_klass, :class => Class do
     sequence(:name) { |n| "ModelType#{n}"}
@@ -7,7 +8,7 @@ FactoryGirl.define do
       HashtiveRecord::Base.database << table
       klass = Object.const_set(name, Class.new(HashtiveRecord::Base))
       klass.table_name = table_name
-      klass.columns :name, :description
+      klass.instance_eval { include Trifik::Model }
       klass
     }
   end

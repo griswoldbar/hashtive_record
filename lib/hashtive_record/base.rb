@@ -20,10 +20,6 @@ module HashtiveRecord
       @modifier_options ||= Hash.new
     end
     
-    def screen_name
-      record.screen_name || record.name
-    end
-    
     def modifier_modules
       record.modifiers.marshal_dump.keys rescue []
     end
@@ -68,7 +64,6 @@ module HashtiveRecord
       def inherited(base)
         base.reflection = Reflection.new(base)
         base.table_name ||= base.name.tableize.to_sym if !!base.name
-        base.columns :screen_name, :name, :description  #TODO- move to config
       end
       
       def columns(*names)
