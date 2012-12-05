@@ -15,8 +15,9 @@ describe HashtiveRecord::Modifier do
       it "adds to the definitions hash" do
         mod.text(:new_name)
         mod.definitions.should == {new_name: {}}
-        mod.text(:new_description, default: "useless")
-        mod.definitions.should == {new_name: {}, new_description: {default: "useless"}}
+        blok = { "some block" }
+        mod.text(:new_description, blok)
+        mod.definitions.should == {new_name: {}, new_description: blok}}
       end
     end
     
