@@ -14,10 +14,10 @@ describe HashtiveRecord::Modifier do
     describe ".text" do
       it "adds to the definitions hash" do
         mod.text(:new_name)
-        mod.definitions.should == {new_name: {}}
-        blok = { "some block" }
-        mod.text(:new_description, blok)
-        mod.definitions.should == {new_name: {}, new_description: blok}}
+        mod.definitions.new_name.should == nil
+        blok = proc { "some block" }
+        mod.text(:new_description, &blok)
+        mod.definitions.new_description.should == blok
       end
     end
     
