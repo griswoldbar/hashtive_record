@@ -43,7 +43,8 @@ module HashtiveRecord
         _parent_polymorph_name = "#{association_name}_type".to_sym
         _association_name = association_name
         
-        belonger_klass.send(:define_method, association_name.eqify) do |object|   
+        belonger_klass.send(:define_method, association_name.eqify) do |object|  
+          object = object.association if object.respond_to?(:association)          
           _parent_klass_name = object.class.to_s.downcase.to_sym       
           @_parents ||= {}
           @_parents[_association_name] ||= AssociationProxies::PolymorphicParentProxy.new(_association_name)       
@@ -71,7 +72,8 @@ module HashtiveRecord
         _parent_klass_name = parent_klass_name
         _association_name = association_name
         
-        belonger_klass.send(:define_method, association_name.eqify) do |object|          
+        belonger_klass.send(:define_method, association_name.eqify) do |object|
+          object = object.association if object.respond_to?(:association) #so that we can associate with another proxy object     
           @_parents ||= {}
           @_parents[_association_name] ||= AssociationProxies::ParentProxy.new(_parent_klass_name)
           raise TypeMismatch, "#{object}" unless @_parents[_association_name].valid_klass?(object)
