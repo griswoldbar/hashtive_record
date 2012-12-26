@@ -2,6 +2,7 @@ module HashtiveRecord
 
   class Base
     extend Macros
+    include Comparable
     attr_accessor :record
         
     def id
@@ -42,6 +43,9 @@ module HashtiveRecord
       extend(modifier.to_class)
     end
     
+    def==(other)
+      self.id == other.id
+    end
     
     class<<self
       

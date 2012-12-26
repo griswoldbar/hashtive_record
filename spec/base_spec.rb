@@ -163,4 +163,11 @@ describe "HashtiveRecord::Base" do
       
     end
   end  
+  
+  describe "#==" do
+    it "returns true when objects have the same id" do
+      pet2 = Pet.instantiate(pet_record)
+      pet.should == pet2
+    end
+  end
 end
