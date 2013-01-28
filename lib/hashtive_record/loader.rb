@@ -14,7 +14,10 @@ module HashtiveRecord
     def load
       initialize_tables
       initialize_database
-      fill_tables
+    end
+    
+    def fill_tables
+      @tables.each {|table| load_records(table) }
     end
     
     private
@@ -23,9 +26,7 @@ module HashtiveRecord
       @tables = collection_names.map {|collection_name| Storage::Table.new(collection_name.to_sym) }
     end
     
-    def fill_tables
-      @tables.each {|table| load_records(table) }
-    end
+
     
     def load_records(table)
       files = Dir.glob("#{folder}/#{table.id.to_s}/*.yaml")
